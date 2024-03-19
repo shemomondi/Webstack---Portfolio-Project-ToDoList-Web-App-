@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="current.css">
+    {% load static %}
     <title>Current_Todos</title>
 </head>
 <body>
@@ -100,6 +101,7 @@
     }
     </style>
     <div class="container">
+        {% csrf_token %}
         <nav class="navbar">
            <div class="left">
             <img src="#" alt="" class="logo">
@@ -120,10 +122,7 @@
 
     <div class="body">
         <h1>Current Todo List</h1>
-        <div  addtolist()>List</div>
-        <div memofun()>Memo</div>
-        <div datefun()> Date</div>
-        <button class="btn">Add New</button>
+    
     </div>
 </body>
 <script src="script.js"></script>

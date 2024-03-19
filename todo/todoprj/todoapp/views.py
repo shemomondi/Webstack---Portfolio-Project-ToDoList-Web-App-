@@ -76,3 +76,28 @@ def loginpage(request):
         
         # print(username)
     return render(request,'todoapp/login.html',{})
+
+
+def create(request):
+    if(request.method == 'POST'):
+        # Get the user's input and create a new todo item with it
+        task = request.POST.get('create')
+        new_todo =  todo(user=request.user, todo_name=task) 
+        new_todo.save()
+    return render(request, 'todoapp/create.html',{})
+
+def current(request):
+    if(request.method == 'POST'):
+        # Get the user's input and create a new todo item with it
+        task = request.POST.get('current')
+        new_todo =  todo(user=request.user, todo_name=task) 
+        new_todo.save()
+    return render(request, 'todoapp/current.html',{})
+
+def completed(request):
+    if(request.method == 'POST'):
+        # Get the user's input and create a new todo item with it
+        task = request.POST.get('completed')
+        new_todo =  todo(user=request.user, todo_name=task) 
+        new_todo.save()
+    return render(request, 'todoapp/completed.html',{})

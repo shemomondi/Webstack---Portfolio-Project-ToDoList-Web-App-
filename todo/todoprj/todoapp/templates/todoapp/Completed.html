@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="completed.css">
+    {% load static %}
     <title>Completed_Todos</title>
 </head>
 <body>
@@ -100,6 +101,7 @@
         }        
     </style>
     <div class="container">
+        {% csrf_token %}
         <nav class="navbar">
            <div class="left">
             <img src="#" alt="" class="logo">
@@ -120,7 +122,7 @@
 
     <div class="body">
         <h1>Completed Todo List</h1>
-        <button class="btn"><a href="create1.html">Add New</a></button>
+        <button class="btn"><a href="{% url 'create'%}">Add New</a></button>
     </div>
 </body>
 </html>

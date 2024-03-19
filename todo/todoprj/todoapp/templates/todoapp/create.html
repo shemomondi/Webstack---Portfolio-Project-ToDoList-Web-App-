@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="login.css">
+    {% load static %}
     <title>Create_new_todo</title>
 </head>
 <body>
@@ -100,6 +101,7 @@
     }
     </style>
     <div class="container">
+        {% csrf_token %}
         <nav class="navbar">
            <div class="left">
             <img src="#" alt="" class="logo">
@@ -138,7 +140,7 @@
         </div>
         
         </form>
-        <button class="submit" onclick="mainfun()" type="submit">save</button>
+        <button class="submit"  type="submit"><a href="{% url 'current'%}">Save</a></button>
     </div>
  
 </body>
