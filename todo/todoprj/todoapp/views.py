@@ -6,11 +6,11 @@ from .models import todo
 
 # Create your views here.
 def home(request):
-    if(request.method == 'POST'):
-        # Get the user's input and create a new todo item with it
-        task = request.POST.get('task')
-        new_todo =  todo(user=request.user, todo_name=task) 
-        new_todo.save()
+    # if(request.method == 'POST'):
+    #     # Get the user's input and create a new todo item with it
+    #     task = request.POST.get('task')
+    #     new_todo =  todo(user=request.user, todo_name=task) 
+    #     new_todo.save()
     return render(request, 'todoapp/todo.html',{})
 
 # Getting user's data from the registration page and validating it with Django authentication system.
@@ -81,23 +81,27 @@ def loginpage(request):
 def create(request):
     if(request.method == 'POST'):
         # Get the user's input and create a new todo item with it
-        task = request.POST.get('create')
-        new_todo =  todo(user=request.user, todo_name=task) 
+        task = request.POST.get('task')
+        date = request.POST.get('date')
+        description = request.POST.get('memo')
+        new_todo =  todo(user=request.user, task=task, date=date , description=description) 
         new_todo.save()
+        return redirect('current')
+         
     return render(request, 'todoapp/create.html',{})
 
 def current(request):
-    if(request.method == 'POST'):
-        # Get the user's input and create a new todo item with it
-        task = request.POST.get('current')
-        new_todo =  todo(user=request.user, todo_name=task) 
-        new_todo.save()
+    # if(request.method == 'POST'):
+    #     # Get the user's input and create a new todo item with it
+    #     task = request.POST.get('current')
+    #     new_todo =  todo(user=request.user, todo_name=task) 
+    #     new_todo.save()
     return render(request, 'todoapp/current.html',{})
 
 def completed(request):
-    if(request.method == 'POST'):
-        # Get the user's input and create a new todo item with it
-        task = request.POST.get('completed')
-        new_todo =  todo(user=request.user, todo_name=task) 
-        new_todo.save()
+    # if(request.method == 'POST'):
+    #     # Get the user's input and create a new todo item with it
+    #     task = request.POST.get('completed')
+    #     new_todo =  todo(user=request.user, todo_name=task) 
+    #     new_todo.save()
     return render(request, 'todoapp/completed.html',{})

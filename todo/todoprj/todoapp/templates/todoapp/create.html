@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
-    {% load static %}
+    <!-- <link rel="stylesheet" href="login.css"> -->
     <title>Create_new_todo</title>
 </head>
 <body>
@@ -101,7 +100,7 @@
     }
     </style>
     <div class="container">
-        {% csrf_token %}
+       
         <nav class="navbar">
            <div class="left">
             <img src="#" alt="" class="logo">
@@ -122,27 +121,28 @@
 
     <div class="body">
         <h1>New Todo</h1>
-        <form class="login" action="">
+        <form class="login" action=""  method="POST">
+            {% csrf_token %}
            <div class="form-content">
-            <label for="">Title:
-                <input type="text" class="input" placeholder="Please input the title of your toodo" required>
+            <label for="">Task-name:
+                <input type="text" class="input" placeholder="Please input the title of your toodo" required  name="task">
 
                 <label for=""> Date:
-                    <input type="datetime-local" id="date" name="date"></label><br> 
+                    <input type="date" id="date" name="date"></label><br> 
 
 
             </label><br>
           
-            <label for="">Memo:
-                <textarea name="" id="" cols="30" rows="8" class="memo" placeholder="Please input your password"></textarea>
+            <label for="">Description:
+                <textarea name="memo" id="" cols="30" rows="8" class="memo" placeholder="Please input your password"></textarea>
             </label><br>
            
         </div>
-        
+        <button class="submit"  type="submit">Add task</button>
         </form>
-        <button class="submit"  type="submit"><a href="{% url 'current'%}">Save</a></button>
+   
     </div>
  
 </body>
-<script src="script.js"></script>
+<!-- <script src="script.js"></script> -->
 </html>
