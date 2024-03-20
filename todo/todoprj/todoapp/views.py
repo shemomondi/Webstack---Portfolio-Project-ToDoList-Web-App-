@@ -86,17 +86,21 @@ def create(request):
         description = request.POST.get('memo')
         new_todo =  todo(user=request.user, task=task, date=date , description=description) 
         new_todo.save()
-        return redirect('current')
+        
+    all_todos = todo.objects.filter(user=request.user)
+    context = {
+        'todos': all_todos
+    }
+   
          
-    return render(request, 'todoapp/create.html',{})
+    return render(request, 'todoapp/create.html',context)
 
 def current(request):
-    # if(request.method == 'POST'):
-    #     # Get the user's input and create a new todo item with it
-    #     task = request.POST.get('current')
-    #     new_todo =  todo(user=request.user, todo_name=task) 
-    #     new_todo.save()
-    return render(request, 'todoapp/current.html',{})
+    all_todos = todo.objects.filter(user=request.user)
+    context = {
+        'todos': all_todos
+    }
+    return render(request, 'todoapp/current.html', context)
 
 def completed(request):
     # if(request.method == 'POST'):

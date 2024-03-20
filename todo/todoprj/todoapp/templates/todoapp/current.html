@@ -120,6 +120,37 @@
 
     <div class="body">
         <h1>Current Todo List</h1>
+        <table class="table mb-4">
+            <thead>
+              <tr>
+                <th scope="col">Todo item</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in todos %}
+              <tr>
+                <td>{{i.task}}</td>
+                <td>{{i.description}}</td>
+                <td>{{i.date}}</td>
+
+                {% if i.status == True %}
+                  <td>Completed</td>
+                {% else %}
+                  <td>In progress</td>
+                {% endif %}
+
+                <td>
+                  <a href=""><button type="submit" class="submit">Delete</button></a>
+                  <a href=""><button type="submit" class="submit">Finished</button></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
     
     </div>
 </body>
