@@ -24,8 +24,15 @@
 
            </div>
             <ul>
-               <li> <a href="{% url 'register' %}">Sign Up</a></li>
-               <li><a href="{% url 'login' %}">login</a></li>
+                <li><a href="{% url 'register' %}">Sign Up</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
             </ul>
         </nav>
     </div>
@@ -37,6 +44,11 @@
 
     <div class="body">
         <h1>Simple To Do App</h1>
+        {% if user.is_authenticated %}
+           <p>Hello {{ user.username }}</p>
+        {% else %}
+           <p>Hello guest</p>
+        {% endif %}
         <button class="btn"><a href="{%url 'register'%}">Start</a></button>
     </div>
 </body>

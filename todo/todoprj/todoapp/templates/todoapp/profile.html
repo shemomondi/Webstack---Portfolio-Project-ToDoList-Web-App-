@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>User Profile</title>
+</head>
+<body>
+    <style>
+        img {
+    max-width: 100px; /* Limit image width to the width of its container */
+    height: 50px;
+    border-radius: 250px; /* Maintain aspect ratio */
+}
+
+    </style>
+    <li><a href="{% url 'home_page' %}">Home</a></li>
+    <h1>User Profile</h1>
+    <p><strong>Username:</strong> {{ profile.user.username }}</p>
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    <!-- Add other profile fields as needed -->
+
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+    {% else %}
+        <!-- Placeholder image or default profile picture -->
+        <img src="{% static 'images/default_profile_picture.png' %}" alt="Profile Picture">
+    {% endif %}
+
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

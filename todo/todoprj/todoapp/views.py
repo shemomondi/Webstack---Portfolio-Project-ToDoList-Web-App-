@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .models import todo
+from django.contrib.auth.decorators import login_required
+from .models import Profile
+from todoapp.forms import ProfileEditForm
+from django.shortcuts import get_object_or_404
+from .models import todo
 # from datetime import datetime
 
 # Create your views here.
@@ -19,14 +24,19 @@ def register(request):
     #checking if the  request method is a POST from user's submitted form
     if request.method == 'POST':
        #if the above is true  then get the username and password entered by the user in the form using name attribute specified in the form
-        username = request.POST.get('username')
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+       
+       
+        # username = request.POST.get('username')
         
-        email = request.POST.get('email')
+        # email = request.POST.get('email')
         
-        password = request.POST.get('password')
+        # password = request.POST.get('password')
        
         # checking if the user's password is less than 3  characters long
-        if len(password)<3:
+        if len(password)<8:
             messages.error(request,'Password is too short!')
             return redirect('register') 
         
@@ -40,6 +50,9 @@ def register(request):
         new_user = User.objects.create_user(username=username, password=password, email=email)
         new_user.save()
         # After creating the user we log him in to the log in page in order to retype his/her details  into login form to get access to the home page 
+        new_profile = Profile(user=new_user)
+        new_profile.save()
+
         
         messages.success(request,"Registration Successful ! You can now login.")
         return redirect('login')
@@ -47,6 +60,29 @@ def register(request):
         
         # print(username)
     return render(request,'todoapp/register.html',{})
+
+@login_required
+def profile_view(request):
+    user = request.user
+    try:
+        profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        # If the profile doesn't exist, create a new one
+        profile = Profile(user=user)
+        profile.save()
+
+    if request.method == 'POST':
+        # Update profile if form is submitted
+        profile.bio = request.POST.get('bio', '')
+        # Add other profile fields update here
+        
+        profile.save()
+
+    return render(request, 'todoapp/profile.html', {'profile': profile})
+
+
+
+
 def loginpage(request):
     #checking if the  request method is a POST from user's submitted form
     if request.method == 'POST':
@@ -78,7 +114,7 @@ def loginpage(request):
         # print(username)
     return render(request,'todoapp/login.html',{})
 
-
+@login_required
 def create(request):
     if request.method == 'POST':
         # Get the user's input
@@ -107,6 +143,7 @@ def create(request):
     
     return render(request, 'todoapp/create.html', context)
 
+@login_required
 def current(request):
     # Ensure the user is logged in
     if request.user.is_authenticated:
@@ -119,7 +156,7 @@ def current(request):
     else:
         # Redirect to the login page if the user is not logged in
         return redirect('login')
-
+@login_required
 def completed(request):
     # if(request.method == 'POST'):
     #     # Get the user's input and create a new todo item with it
@@ -127,3 +164,36 @@ def completed(request):
     #     new_todo =  todo(user=request.user, todo_name=task) 
     #     new_todo.save()
     return render(request, 'todoapp/completed.html',{})
+def my_view(request):
+    return render(request, 'todoapp/todo.html', {'user': request.user})
+
+@login_required
+def profile_edit(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    profile = request.user.profile
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileEditForm(instance=profile)
+    return render(request, 'todoapp/profile_edit.html', {'form': form})
+
+def delete_item(request, item_id):
+    # Retrieve the item from the database
+    item = get_object_or_404(todo, pk=item_id)
+    # Delete the item
+    item.delete()
+    # Redirect to a suitable page (e.g., homepage or list of items)
+    return redirect('current')
+
+def update_status(request, item_id):
+    # Retrieve the item from the database
+    item = get_object_or_404(todo, pk=item_id)
+    # Toggle the status (if it's True, set to False; if False, set to True)
+    item.status = not item.status
+    # Save the changes
+    item.save()
+    # Redirect to a suitable page (e.g., homepage or list of items)
+    return redirect('current')

@@ -22,11 +22,7 @@
     }
     body{
         /* border: 1px solid rgb(190, 8, 136);   */
-        padding: 0;
-        margin: 0;
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        line-height: 1.6;
+        height: 100%;
         background: linear-gradient(rgb(61, 172, 57), rgb(32, 61, 194),rgb(172, 31, 113));
     }
     .navbar{
@@ -87,9 +83,8 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        margin: 0px 20px;
+        margin: 20px 20px;
         padding-top: 100px;
-       
     }
     .btn{
         padding: 15px 15px;
@@ -104,19 +99,12 @@
 
     }
     table{
-        border: none;
-        border-radius: 5px;
+        border: 1px solid  #ddd;
         width: 80%;
         height:  100%;
         margin: auto;
         box-shadow: 1px  1px 1px grey;
-        border-collapse: collapse;
     }
-    @media screen and (max-width: 768px) {
-    body {
-        font-size: 14px; /* Adjust font size for smaller screens */
-    }
-}
     </style>
     <div class="container">
         {% csrf_token %}
@@ -139,41 +127,40 @@
     </div>
 
     <div class="body">
-        <h1 style="color: #0a20e9; padding: 15px 15px;">Current Todo List</h1>
-        <table class="table mb-4" style="max-width: 80%; max-height: 70%; padding: 15px 15px; background-color: rgb(50, 177, 177);">
+        <h1>Current Todo List</h1>
+        <table class="table mb-4">
             <thead>
-              <tr style="background-color: #4e31b4; color: #ddd;">
-                <th style=" font-size: 20px; border: 1px solid #ddd;" scope="col">Todo item</th>
-                <th style=" font-size: 20px;border: 1px solid #ddd;" scope="col">Description</th>
-                <th style=" font-size: 20px;border: 1px solid #ddd;" scope="col">Status</th>
-                <th style=" font-size: 20px;border: 1px solid #ddd;" scope="col">Action<p style="color:rgb(190, 41, 41);">This can not be undone</p></th>
-
-              </tr>
+                <tr>
+                    <th scope="col">Todo item</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
             </thead>
-            <tbody style="background-color: #2094d698;">
-              {% for i in todos %}
-              
-                <td style="border: 1px solid #add;color: #0a20e9; font-size: 20px;">{{i.task}}</td>
-                <td style="border: 1px solid #ddd; max-width: 100%;"> <textarea style="max-width: 100%; font-size: 20px; background-color:#2094d698; ;" name="" id="" cols="25" rows="4">{{i.description}}</textarea> </td>
-                <!-- <td style="border: 1px solid #ddd;">{{i.date}}</td> -->
-
-                {% if i.status == True %}
-                  <td style="border: 1px solid #ddd; font-size: 20px; color: rgb(39, 110, 39);">Completed</td>
-                {% else %}
-                  <td style="border: 1px solid #ddd; font-size: 20px; color: #0a20e9;">In progress...</td>
-                {% endif %}
-
-                <td style="border: 1px solid #ddd;">
-                  <a href="{% url 'delete_item' i.id %}"><button type="submit" class="submit" style="background-color: rgb(190, 41, 41); font-size: 20px;border: none;padding: 14px 12px;">Delete</button></a>
-                  {% if not i.status %}
-                  <a href="{% url 'update_status' i.id %}"><button type="submit" class="submit" style="background-color: green; font-size: 20px;border: none;padding: 12px 12px;">Finished</button></a>
-                  {% endif %}
-                </td>
-              </tr>
-              {% endfor %}
+            <tbody>
+                {% for i in todos %}
+                <tr>
+                    <td style="border: 1px solid #ddd; background-color: black;color: #ddd;">{{ i.task }}</td>
+                    <td style="border: 1px solid #ddd;"> <textarea name="" id="" cols="30" rows="5">{{ i.description }}</textarea> </td>
+                    {% if i.status %}
+                    <td style="border: 1px solid #ddd;">Completed</td>
+                    {% else %}
+                    <td style="border: 1px solid #ddd;">In progress</td>
+                    {% endif %}
+                    <td style="border: 1px solid #ddd;">
+                        <a href="{% url 'delete_item' i.id %}">Delete</a>
+                        <td>
+                        {% if not i.status %}
+                      
+                        <a href="{% url 'update_status' i.id %}">Mark as Completed</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
-          </table>
-         <button style="background-color: rgb(28, 28, 182); max-width: 100%; font-size: 20px;border: none;padding: 12px 12px;color:white; margin: 14px 14px;"> <a href="{%url 'create'%}" style="color: #ddd;">Add More</a></button> 
+        </table>
+        <button> <a href="{% url 'create' %}">Add More</a></button>
+        
     
     </div>
 </body>

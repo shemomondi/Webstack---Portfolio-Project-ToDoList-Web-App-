@@ -20,4 +20,16 @@ class todo(models.Model):
    
     def  __str__(self):
         return self.description
+    
+    
+    
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+
+    # Add other fields as needed for your user profile
+
+    def __str__(self):
+        return self.user.username
     #NOTE: Remember to do migrations after this or anytime  you add fields here! or new models
