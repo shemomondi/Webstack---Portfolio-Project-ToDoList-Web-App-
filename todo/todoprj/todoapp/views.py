@@ -197,3 +197,8 @@ def update_status(request, item_id):
     item.save()
     # Redirect to a suitable page (e.g., homepage or list of items)
     return redirect('current')
+def completed(request):
+    todos = todo.objects.filter(status=False)  # Get active/in-progress tasks
+    completed_tasks = todo.objects.filter(completed=True)  # Get completed tasks
+    return render(request, 'todoapp/completed.html', {'todos': todos, 'completed': completed_tasks })
+

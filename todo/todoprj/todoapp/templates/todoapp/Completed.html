@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="completed.css">
     {% load static %}
     <title>Completed_Todos</title>
 </head>
@@ -28,7 +27,6 @@
             background: linear-gradient(rgb(61, 172, 57), rgb(32, 61, 194),rgb(172, 31, 113));
         }
         .navbar{
-            border: 1px solid red;
             justify-content: space-between;
             display: flex;
             text-align: center;
@@ -36,8 +34,7 @@
         }
         ul  {
             display: flex;
-            justify-content: space-between;
-            border: 1px solid rgb(14, 92, 180); 
+            justify-content: space-between; 
         }
         li{
         
@@ -115,14 +112,34 @@
             </h3>
            </div>
             <ul>
-               <li><a href="locallhost">logout</a></li>
+                <li> <a href="{%url 'register'%}">Logout</a></li>
             </ul>
         </nav>
     </div>
 
     <div class="body">
         <h1>Completed Todo List</h1>
-        <button class="btn"><a href="{% url 'create'%}">Add New</a></button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- {% for todo in todos %}
+                <tr>
+                    <td>{{ todo.task }}</td>
+                </tr>
+                {% endfor %} -->
+                {% for task in completed %}
+                <tr>
+                    <td>{{ task.task }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button class="btn"><a href="{% url 'create' %}">Add New</a></button>
     </div>
+    
 </body>
 </html>

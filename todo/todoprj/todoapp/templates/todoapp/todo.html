@@ -43,11 +43,11 @@
     </ul>
 
     <div class="body">
-        <h1>Simple To Do App</h1>
+        <h1><span class="s1">Simple</span> <span class="s3">To</span> <span class="s2">Do</span><span class="s4"> App</span></h1>
         {% if user.is_authenticated %}
-           <p>Hello {{ user.username }}</p>
+           <p style="color: rgb(193, 233, 17);font-size: 18px;">Hello welcome <span class="s7">{{ user.username }}</span></p>
         {% else %}
-           <p>Hello guest</p>
+           <p  style="color: aqua;" >Hello welcome guest</p>
         {% endif %}
         <button class="btn"><a href="{%url 'register'%}">Start</a></button>
     </div>
