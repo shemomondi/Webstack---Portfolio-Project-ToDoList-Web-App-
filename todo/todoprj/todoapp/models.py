@@ -10,7 +10,7 @@ class todo(models.Model):
     user = models.ForeignKey(User, on_delete =models.CASCADE)#rem the foreignkeys used above is used to connect two models together and then the on_delete will delete all the users task if she/he deleted his/her account
     
     task= models.CharField(max_length=1000)#The maximum length of the task description is 1000 characters.
-    date = models.DateField(default=timezone.now)#The maximum length of the task description is 1000 characters.
+    # date = models.DateTimeField(default=timezone.now)#The maximum length of the task description is 1000 characters.
     status = models.BooleanField(default=False) # True for completed, False for not yet completed
     description = models.TextField(max_length= 1000)
     completed = models.BooleanField(default=False)

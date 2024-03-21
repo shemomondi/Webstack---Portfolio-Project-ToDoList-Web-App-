@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Current_Todos</title>
+    <!-- <link rel="stylesheet" href="login.css"> -->
+    <title>Create_new_todo</title>
 </head>
 <body>
     <style>
@@ -96,18 +97,10 @@
     .btn a {
         color: black;
         font-size: 18px;
-
-    }
-    table{
-        border: 1px solid  #ddd;
-        width: 80%;
-        height:  100%;
-        margin: auto;
-        box-shadow: 1px  1px 1px grey;
     }
     </style>
     <div class="container">
-        {% csrf_token %}
+       
         <nav class="navbar">
            <div class="left">
             <img src="#" alt="" class="logo">
@@ -121,45 +114,35 @@
             </h3>
            </div>
             <ul>
-               <li><a href="{%url 'register'%}">logout</a></li>
+               <li> <a href="{%url 'register'%}">Logout</a></li>
             </ul>
         </nav>
     </div>
 
     <div class="body">
-        <h1>Current Todo List</h1>
-        <table class="table mb-4">
-            <thead>
-              <tr>
-                <th scope="col">Todo item</th>
-                <th scope="col">Description</th>
-                <th scope="col">Date</th>
-                <th scope="col">Status</th>
+        <h1>New Todo</h1>
+        <form class="login" action=""  method="POST">
+            {% csrf_token %}
+           <div class="form-content">
+            <label for="">Task-name:
+                <input type="text" class="input" placeholder="Please input the title of your toodo" required  name="task">
 
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in todos %}
-              
-                <td style="border: 1px solid #ddd; background-color: black;color: #ddd;">{{i.task}}</td>
-                <td style="border: 1px solid #ddd;"> <textarea name="" id="" cols="30" rows="5">{{i.description}}</textarea> </td>
-                <!-- <td style="border: 1px solid #ddd;">{{i.date}}</td> -->
+                <label for=""> Date:
+                    <input type="date" id="date" name="date"></label><br> 
 
-                {% if i.status == True %}
-                  <td style="border: 1px solid #ddd;">Completed</td>
-                {% else %}
-                  <td style="border: 1px solid #ddd;">In progress</td>
-                {% endif %}
 
-                <td style="border: 1px solid #ddd;">
-                  <a href=""><button type="submit" class="submit">Delete</button></a>
-                  <a href=""><button type="submit" class="submit">Finished</button></a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-    
+            </label><br>
+          
+            <label for="">Description:
+                <textarea name="memo" id="" cols="30" rows="8" class="memo" placeholder="Please input your password"></textarea>
+            </label><br>
+           
+        </div>
+        <button class="submit"  type="submit">Add task</button>
+        </form>
+   
     </div>
+ 
 </body>
+<!-- <script src="script.js"></script> -->
 </html>

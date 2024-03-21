@@ -148,20 +148,10 @@
     {% csrf_token %}
 <table>
     <!-- row-1 -->
-  <tr>
-    <th> Title:</th>
-    <td><input type="text" name="task" value=""></td>
-  </tr>
-    <!-- row-2 -->
-  <tr>
-    <th>Description:</th>
-    <td><textarea rows="4" cols="30" name="memo"></textarea></td>
-  </tr>
-    <!-- row-3 -->
-  <tr>
-    <th>Due date:</th>
-    <td><input type="datetime-local" value="" name="da"></td>
-  </tr>
+    <tr>
+        <th> TaskList:</th>
+        <td><input type="text" name="tasklist" value=""></td>
+      </tr>
 </table> 
 <button class="submit" type="submit" >Add Todo Item</button><br>
 <button>Add Todo list</button>

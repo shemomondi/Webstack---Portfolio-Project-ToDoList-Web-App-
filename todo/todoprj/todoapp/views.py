@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .models import todo
+# from datetime import datetime
 
 # Create your views here.
 def home(request):
@@ -79,28 +80,45 @@ def loginpage(request):
 
 
 def create(request):
-    if(request.method == 'POST'):
-        # Get the user's input and create a new todo item with it
+    if request.method == 'POST':
+        # Get the user's input
         task = request.POST.get('task')
-        date = request.POST.get('date')
+        # date_string = request.POST.get('date')  # Assuming the date input field name is 'date'
         description = request.POST.get('memo')
-        new_todo =  todo(user=request.user, task=task, date=date , description=description) 
+
+        # Parse the date string into a datetime object
+        # try:
+        #     date = datetime.strptime(date_string, "%Y-%m-%d")  # Adjust the format accordingly
+        # except ValueError:
+        #     # Handle invalid date format error
+        #     # You might want to display a message to the user indicating the correct date format
+        #     messages.error(request, 'Please enter a valid date in YYYY-MM-DD format')
+        #     return redirect('create')  # Redirect the user back to the create page
+
+        # Create a new todo item with the formatted date
+        new_todo = todo(user=request.user, task=task, description=description)
         new_todo.save()
-        
+
+    # Fetch all todos for the current user
     all_todos = todo.objects.filter(user=request.user)
     context = {
         'todos': all_todos
     }
-   
-         
-    return render(request, 'todoapp/create.html',context)
+    
+    return render(request, 'todoapp/create.html', context)
 
 def current(request):
-    all_todos = todo.objects.filter(user=request.user)
-    context = {
-        'todos': all_todos
-    }
-    return render(request, 'todoapp/current.html', context)
+    # Ensure the user is logged in
+    if request.user.is_authenticated:
+        # Retrieve todo items associated with the currently logged-in user
+        all_todos = todo.objects.filter(user=request.user)
+        context = {
+            'todos': all_todos
+        }
+        return render(request, 'todoapp/current.html', context)
+    else:
+        # Redirect to the login page if the user is not logged in
+        return redirect('login')
 
 def completed(request):
     # if(request.method == 'POST'):
