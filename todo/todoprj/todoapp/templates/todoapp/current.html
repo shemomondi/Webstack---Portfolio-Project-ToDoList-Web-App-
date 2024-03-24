@@ -145,7 +145,9 @@
               <tr style="background-color: #4e31b4; color: #ddd;">
                 <th style=" font-size: 20px; border: 1px solid #ddd;" scope="col">Todo item</th>
                 <th style=" font-size: 20px;border: 1px solid #ddd;" scope="col">Description</th>
+                <th style=" font-size: 20px;border: 1px solid #ddd;" scope="col">Date|Time</th> 
                 <th style=" font-size: 20px;border: 1px solid #ddd;" scope="col">Status</th>
+                   
                 <th style=" font-size: 20px;border: 1px solid #ddd;" scope="col">Action<p style="color:rgb(190, 41, 41);">This can not be undone</p></th>
 
               </tr>
@@ -155,10 +157,18 @@
               
                 <td style="border: 1px solid #add;color: #0a20e9; font-size: 20px;">{{i.task}}</td>
                 <td style="border: 1px solid #ddd; max-width: 100%;"> <textarea style="max-width: 100%; font-size: 20px; background-color:#2094d698; ;" name="" id="" cols="25" rows="4">{{i.description}}</textarea> </td>
-                <!-- <td style="border: 1px solid #ddd;">{{i.date}}</td> -->
+                <td style="border: 1px solid #ddd;">
+                    {% if i.due_date %}
+                        {{ i.due_date }}
+                    {% else %}
+                        No due date set
+                    {% endif %}
+                </td>
+
 
                 {% if i.status == True %}
                   <td style="border: 1px solid #ddd; font-size: 20px; color: rgb(39, 110, 39);">Completed</td>
+                  <!-- {{i.task}} -->
                 {% else %}
                   <td style="border: 1px solid #ddd; font-size: 20px; color: #0a20e9;">In progress...</td>
                 {% endif %}

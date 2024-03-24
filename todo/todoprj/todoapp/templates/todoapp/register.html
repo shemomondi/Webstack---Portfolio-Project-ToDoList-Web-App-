@@ -61,6 +61,10 @@
            <div class="text">
             <h3>Forgot Password? <a href="#">Reset</a></h3>
           </div>
+          {% load socialaccount %}
+
+          <a href="{% provider_login_url 'google' %}">Sign in with Google</a>
+          
         </form>
     </div>
 </body>

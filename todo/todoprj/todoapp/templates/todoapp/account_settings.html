@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account Settings</title>
+    <script>
+        function detectTimezone() {
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            document.getElementById('timezone').value = timezone;
+        }
+    </script>
+</head>
+<body onload="detectTimezone()">
+    <form id="timezoneForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="timezone" name="timezone">
+        <!-- Include other form fields or UI elements -->
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

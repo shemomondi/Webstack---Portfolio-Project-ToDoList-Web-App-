@@ -14,6 +14,8 @@ class todo(models.Model):
     status = models.BooleanField(default=False) # True for completed, False for not yet completed
     description = models.TextField(max_length= 1000)
     completed = models.BooleanField(default=False)
+    due_date = models.DateTimeField( null=True, blank=True)
+  
     
     def  __str__(self):
         return self.task
@@ -21,15 +23,11 @@ class todo(models.Model):
     def  __str__(self):
         return self.description
     
-    
-    
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
 
-    # Add other fields as needed for your user profile
-
     def __str__(self):
         return self.user.username
-    #NOTE: Remember to do migrations after this or anytime  you add fields here! or new models
+

@@ -8,6 +8,7 @@ from .models import Profile
 from todoapp.forms import ProfileEditForm
 from django.shortcuts import get_object_or_404
 from .models import todo
+from .forms import TaskForm 
 # from datetime import datetime
 
 # Create your views here.
@@ -36,7 +37,7 @@ def register(request):
         # password = request.POST.get('password')
        
         # checking if the user's password is less than 3  characters long
-        if len(password)<8:
+        if len(password)<3:
             messages.error(request,'Password is too short!')
             return redirect('register') 
         
@@ -80,9 +81,6 @@ def profile_view(request):
 
     return render(request, 'todoapp/profile.html', {'profile': profile})
 
-
-
-
 def loginpage(request):
     #checking if the  request method is a POST from user's submitted form
     if request.method == 'POST':
@@ -119,26 +117,19 @@ def create(request):
     if request.method == 'POST':
         # Get the user's input
         task = request.POST.get('task')
-        # date_string = request.POST.get('date')  # Assuming the date input field name is 'date'
         description = request.POST.get('memo')
-
-        # Parse the date string into a datetime object
-        # try:
-        #     date = datetime.strptime(date_string, "%Y-%m-%d")  # Adjust the format accordingly
-        # except ValueError:
-        #     # Handle invalid date format error
-        #     # You might want to display a message to the user indicating the correct date format
-        #     messages.error(request, 'Please enter a valid date in YYYY-MM-DD format')
-        #     return redirect('create')  # Redirect the user back to the create page
-
-        # Create a new todo item with the formatted date
-        new_todo = todo(user=request.user, task=task, description=description)
+        due_date = request.POST.get('due_date')
+        
+        # Create a new todo item 
+        new_todo = todo(user=request.user, task=task, description=description,due_date = due_date)
         new_todo.save()
+ 
 
     # Fetch all todos for the current user
     all_todos = todo.objects.filter(user=request.user)
     context = {
         'todos': all_todos
+        
     }
     
     return render(request, 'todoapp/create.html', context)
@@ -156,13 +147,31 @@ def current(request):
     else:
         # Redirect to the login page if the user is not logged in
         return redirect('login')
+def custom_login_view(request):
+    if request.method == 'POST':
+        # Authentication process
+        # If authentication is successful:
+        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        if user is not None:
+            login(request, user)
+            # Redirect to the home page
+            return redirect('home_page')
+        else:
+            # Handle unsuccessful login
+            return render(request, 'todoapp/login.html', {'error': 'Invalid username or password'})
+
+    return render(request, 'todoapp/login.html')
+
+
+
+
 @login_required
 def completed(request):
-    # if(request.method == 'POST'):
-    #     # Get the user's input and create a new todo item with it
-    #     task = request.POST.get('completed')
-    #     new_todo =  todo(user=request.user, todo_name=task) 
-    #     new_todo.save()
+    if(request.method == 'POST'):
+        # Get the user's input and create a new todo item with it
+        task = request.POST.get('completed')
+        new_todo =  todo(user=request.user, todo_name=task) 
+        new_todo.save()
     return render(request, 'todoapp/completed.html',{})
 def my_view(request):
     return render(request, 'todoapp/todo.html', {'user': request.user})
@@ -185,7 +194,7 @@ def delete_item(request, item_id):
     item = get_object_or_404(todo, pk=item_id)
     # Delete the item
     item.delete()
-    # Redirect to a suitable page (e.g., homepage or list of items)
+  # Redirect to the current page
     return redirect('current')
 
 def update_status(request, item_id):
@@ -195,10 +204,15 @@ def update_status(request, item_id):
     item.status = not item.status
     # Save the changes
     item.save()
-    # Redirect to a suitable page (e.g., homepage or list of items)
+    # Redirect to the current page
     return redirect('current')
-def completed(request):
-    todos = todo.objects.filter(status=False)  # Get active/in-progress tasks
-    completed_tasks = todo.objects.filter(completed=True)  # Get completed tasks
-    return render(request, 'todoapp/completed.html', {'todos': todos, 'completed': completed_tasks })
 
+@login_required
+def account_settings(request):
+    if request.method == 'POST':
+        timezone = request.POST.get('timezone')
+        request.user.userprofile.timezone = timezone
+        request.user.userprofile.save()
+        # Redirect or render success message
+
+    return render(request, 'account_settings.html')
