@@ -24,6 +24,10 @@ body{
     /* border: 1px solid rgb(190, 8, 136);   */
     height: 100%;
     background: linear-gradient(rgb(61, 172, 57), rgb(32, 61, 194),rgb(172, 31, 113));
+    display: flex;
+          justify-content: space-around;
+          align-items: center;
+          flex-direction: column;
 }
 .navbar{
     /* border: 1px solid red; */
@@ -85,7 +89,8 @@ color: aqua;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding-top: 100px;
+    padding-top: 60px;
+    
 }
 .submit{
     padding: 15px 15px;
@@ -102,11 +107,13 @@ color: aqua;
     /* border: 2px solid rebeccapurple; */
     margin: 50px 509px;
     padding: 40px 40px;
-    height: 400px;
+    height: 345px;
     width: 360px;
     background-color: rgb(30, 30, 163);
     border: none;
     border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 100px;
    @media screen {
     display: flex;
     
@@ -119,11 +126,10 @@ color: aqua;
     align-items: center;
     flex-direction: column;
     text-align: center;
-    border: 2px solid red;
     height: 100%;
 }
 .lebels {
-    border: 2px solid red;
+    
     font-size: 20px;
     padding: 15px 15px;
 }
@@ -178,9 +184,8 @@ color: aqua;
                 <input type="password" placeholder="Please input your password" required name="pass">
             </label><br>
             
-            <div class="submit">
-                <input type="Submit" value="Login">
-              </div>
+            <button class="submit" type="submit" value="signup">Login</button>
+            
               <div class="text">
                 <h3>Do not have account <a href="{% url 'register'%}">register</a></h3>
               </div>
